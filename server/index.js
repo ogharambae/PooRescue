@@ -25,7 +25,7 @@ const start = async () => {
 
     app.listen(process.env.serverPort, async () => {
         try {
-            const washroomData = await axios.get("https://opendata.vancouver.ca/api/records/1.0/search/?dataset=public-washrooms&q=&facet=type&facet=summer_hours&facet=winter_hours&facet=wheel_access&facet=maintainer&facet=geo_local_area")
+            const washroomData = await axios.get("https://opendata.vancouver.ca/api/records/1.0/search/?dataset=public-washrooms&q=&rows=200&facet=type&facet=summer_hours&facet=winter_hours&facet=wheel_access&facet=maintainer&facet=geo_local_area")
             if (!washroomData || !washroomData.data || washroomData.status != 200) {
                 throw new Error("Error: could not load washroom data.")
             }
@@ -79,13 +79,51 @@ app.get("/logout", asyncWrapper(async (req, res) => {
 );
 
 // get washroom data
-app.get("/getWashrooms", asyncWrapper(async (req, res) => {
-    res.send("hello from getWashroom");
+app.get("/washrooms", asyncWrapper(async (req, res) => {
+    let query = washroomModel.find({}).sort("primaryind");
+    query.exec().then((d) => {
+        if (d.length > 0) {
+            res.json(d);
+        } else {
+            throw new BadRequestErr("No washrooms found.");
+        }
+    })
+}))
+
+app.get("/washrooms/:primaryind", asyncWrapper(async (req, res) => {
+    if (!req.params.primaryind) {
+        throw new BadRequestErr("ID of washroom must be provided.");
+    }
+    await washroomModel.find({ "fields.primaryind": req.params.primaryind })
+        .then((d) => {
+            if (d.length > 0) {
+                res.json(d);
+            } else {
+                throw new BadRequestErr("No washrooms found.")
+            }
+        })
+        .catch((err) => {
+            throw new BadRequestErr(err);
+        })
 }))
 
 // add new washroom
-app.put("/addWashrooms", asyncWrapper(async (req, res) => {
-    res.send("hello from addWashroom");
+app.put("/washrooms/:primaryind", asyncWrapper(async (req, res) => {
+    const selection = { "fields.primaryind": req.params.primaryind };
+    console.log(selection)
+    const update = req.body
+    const options = {
+        new: true,
+        runValidators: true,
+        upsert: true
+    }
+    const doc = await washroomModel.findOneAndUpdate(selection, update, options);
+    console.log(doc);
+    if (doc) {
+        res.json({ msg: "Washroom upserted successfully.", data: doc })
+    } else {
+        throw new BadRequestErr("Error: problem upserting washroom.");
+    }
 }))
 
 // update a washroom
@@ -97,6 +135,8 @@ app.patch("/updateWashrooms", asyncWrapper(async (req, res) => {
 app.delete("/deleteWashrooms", asyncWrapper(async (req, res) => {
     res.send("hello from delWashroom");
 }))
+
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.get('*', (req, res) => {
     throw new BadRequestErr("Error 404: improper routes.");
