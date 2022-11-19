@@ -128,8 +128,23 @@ app.put("/washrooms/:primaryind", asyncWrapper(async (req, res) => {
 }))
 
 // update a washroom
-app.patch("/updateWashrooms", asyncWrapper(async (req, res) => {
-    res.send("hello from updateWashroom");
+app.patch("/updateWashrooms/:primaryind", asyncWrapper(async (req, res) => {
+    const selection = { "fields.primaryind": req.params.primaryind };
+    const update = { $set: req.body }
+    const options = {
+        new: true,
+        runValidators: true
+    }
+    const doc = await washroomModel.findOneAndUpdate(selection, update, options)
+    console.log(doc)
+    if (doc) {
+        res.json({
+            msg: "Washroom patched Successfully.",
+            doc: doc
+        })
+    } else {
+        throw new BadRequestErr("Error patching a washroom.");
+    }
 }))
 
 // delete a washroom
