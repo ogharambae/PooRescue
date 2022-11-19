@@ -90,6 +90,7 @@ app.get("/washrooms", asyncWrapper(async (req, res) => {
     })
 }))
 
+// get washroom with id
 app.get("/washrooms/:primaryind", asyncWrapper(async (req, res) => {
     if (!req.params.primaryind) {
         throw new BadRequestErr("ID of washroom must be provided.");
