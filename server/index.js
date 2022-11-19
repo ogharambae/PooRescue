@@ -1,26 +1,39 @@
+const express = require("express");
+const dotenv = require("dotenv");
+const axios = require("axios");
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
+const jwt = require("jsonwebtoken");
+const { asyncWrapper } = require("./utility/asyncWrapper");
+const { connectAuth } = require("./utility/connectAuth");
+const { connectDB } = require("./utility/connectDB");
+const userModel = require("./utility/userModel");
 const {
     BadRequestErr
-} = require("./utility/errorCodes")
-const { asyncWrapper } = require("./utility/asyncWrapper")
-const { connectAuth } = require("./utility/connectAuth")
-const userModel = require("./utility/userModel")
-const express = require("express")
-const dotenv = require("dotenv")
-const cookieParser = require("cookie-parser")
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
+} = require("./utility/errorCodes");
+const washroomSchema = require("./utility/washroomModel");
 
 const app = express();
 dotenv.config();
 
+let washroomModel = null;
+
 const start = async () => {
     await connectAuth();
-    app.listen(process.env.serverPort, (err) => {
-        if (err) {
+    await connectDB();
+
+    app.listen(process.env.serverPort, async () => {
+        try {
+            const washroomData = await axios.get("https://opendata.vancouver.ca/api/records/1.0/search/?dataset=public-washrooms&q=&facet=type&facet=summer_hours&facet=winter_hours&facet=wheel_access&facet=maintainer&facet=geo_local_area")
+            if (!washroomData || !washroomData.data || washroomData.status != 200) {
+                throw new Error("Error: could not load washroom data.")
+            }
+            washroomModel = await washroomSchema;
+            await washroomModel.create(washroomData.data.records);
+            await console.log(`Server is running on port: ${process.env.serverPort}`);
+        } catch (err) {
             throw new BadRequestErr(err)
-        }
-        else {
-            console.log(`Server is running on port: ${process.env.serverPort}`);
         }
     })
 }
@@ -67,26 +80,22 @@ app.get("/logout", asyncWrapper(async (req, res) => {
 
 // get washroom data
 app.get("/getWashrooms", asyncWrapper(async (req, res) => {
-
     res.send("hello from getWashroom");
 }))
 
 // add new washroom
 app.put("/addWashrooms", asyncWrapper(async (req, res) => {
     res.send("hello from addWashroom");
-
 }))
 
 // update a washroom
 app.patch("/updateWashrooms", asyncWrapper(async (req, res) => {
     res.send("hello from updateWashroom");
-
 }))
 
 // delete a washroom
 app.delete("/deleteWashrooms", asyncWrapper(async (req, res) => {
     res.send("hello from delWashroom");
-
 }))
 
 app.get('*', (req, res) => {
