@@ -32,4 +32,4 @@ const schema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('user', schema) //pokeUser is the name of the collection in the db
+module.exports = mongoose.model('user', schema) // user is the name of the collection in the db
