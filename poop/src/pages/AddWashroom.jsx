@@ -11,7 +11,9 @@ function AddWashroom() {
         summer_hour: "",
         winter_hour: "",
         info: "",
-        wheelchair: ""
+        wheelchair: "",
+        lat: "",
+        long: ""
     });
 
     const changeHandler = (e) => {
@@ -72,6 +74,22 @@ function AddWashroom() {
                     name="info"
                     placeholder="Info"
                     value={data.info}
+                    onChange={changeHandler}
+                />
+                <TextField
+                    margin="normal"
+                    type={"text"}
+                    name="lat"
+                    placeholder="Latitude"
+                    value={data.lat}
+                    onChange={changeHandler}
+                />
+                <TextField
+                    margin="normal"
+                    type={"text"}
+                    name="long"
+                    placeholder="Longitude"
+                    value={data.long}
                     onChange={changeHandler}
                 />
                 <FormGroup>
