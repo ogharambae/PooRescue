@@ -21,11 +21,11 @@ export default function AlertDialog() {
         await e.preventDefault();
         var data = {
             "datasetid": "public-washrooms",
-            "recordid": "testrecordid",
+            "recordid": "abc123abc123",
             "fields": {
                 "summer_hours": "Fire hall operation hours",
                 "location": "Vacouver Fire Hall No.2",
-                "name": "Demo Washroom",
+                "name": "Demo washroom",
                 "address": "199 Main St",
                 "type": "Toilet in building",
                 "winter_hours": "Fire hall operation hours",
