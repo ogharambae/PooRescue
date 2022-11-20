@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
+    "recordid": String,
     "datasetId": String,
     "recordId": String,
     "fields": {
