@@ -13,7 +13,7 @@ const {
     BadRequestErr
 } = require("./utility/errorCodes");
 const washroomSchema = require("./utility/washroomModel");
-const cors = require("cors");
+const cors = require('cors')
 
 const app = express();
 dotenv.config();
