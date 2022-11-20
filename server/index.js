@@ -98,11 +98,11 @@ app.get("/washrooms", asyncWrapper(async (req, res) => {
 }))
 
 // get washroom with id
-app.get("/washrooms/:recordid", asyncWrapper(async (req, res) => {
-    if (!req.params.recordid) {
+app.get("/washrooms/:name", asyncWrapper(async (req, res) => {
+    if (!req.params.name) {
         throw new BadRequestErr("ID of washroom must be provided.");
     }
-    await washroomModel.find({ recordid: req.params.recordid })
+    await washroomModel.find({ "fields.name": req.params.name })
         .then((d) => {
             if (d.length > 0) {
                 res.json(d);
