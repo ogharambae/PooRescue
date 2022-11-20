@@ -65,6 +65,12 @@ function Home() {
             <InfoWindow position={{ lat: selectedMarker.fields.geom.coordinates[1], lng: selectedMarker.fields.geom.coordinates[0] }}>
               <div>
                 <h1>{selectedMarker.fields.name}</h1>
+                <h3>{"Location: " + selectedMarker.fields.location}</h3>
+                <h3>{"Address: " + selectedMarker.fields.address}</h3>
+                <h3>{"Summer hours: " + selectedMarker.fields.summer_hours}</h3>
+                <h3>{"Winter hours: " + selectedMarker.fields.winter_hours}</h3>
+                <h3>{"Info: " + selectedMarker.fields.type}</h3>
+                <h3>{"Wheelchair accessible? " + selectedMarker.fields.wheel_access}</h3>
                 <button type='button' onClick={() => { setSelectedMarker("") }}>Close</button>
               </div>
             </InfoWindow>
