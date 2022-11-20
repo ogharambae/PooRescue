@@ -41,7 +41,14 @@ function Home() {
         <GoogleMap
           mapContainerStyle={mapStyles}
           zoom={13}
-          center={defaultCenter}>
+          center={defaultCenter}
+          options={{
+            streetViewControl: false,
+            fullscreenControl: false,
+            mapTypeControl: false,
+            zoomControl: false
+          }}
+        >
           {
             washroom.map(item => {
               return (
