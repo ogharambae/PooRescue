@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { set } from 'mongoose';
+
 // import MapContainer from '../components/MapContainer';
 
 function Home() {
   const [washroom, setWashroom] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState("");
 
+  console.log(selectedMarker);
   const fetchData = () => {
     return fetch("http://localhost:8000/washrooms")
       .then((response) => response.json())
@@ -37,10 +41,25 @@ function Home() {
           {
             washroom.map(item => {
               return (
-                <Marker key={item.recordid} position={{ lat: item.fields.geom.coordinates[1], lng: item.fields.geom.coordinates[0] }} />
+                <div key={item.recordid}>
+                  <Marker
+                    position={{ lat: item.fields.geom.coordinates[1], lng: item.fields.geom.coordinates[0] }}
+                    onClick={() => {
+                      setSelectedMarker(item);
+                    }}
+                  />
+                </div>
               )
             })
           }
+          {selectedMarker && (
+            <InfoWindow position={{ lat: selectedMarker.fields.geom.coordinates[1], lng: selectedMarker.fields.geom.coordinates[0] }}>
+              <div>
+                <h1>{selectedMarker.fields.name}</h1>
+                <button type='button' onClick={() => { setSelectedMarker("") }}>Close</button>
+              </div>
+            </InfoWindow>
+          )}
         </GoogleMap>
       </LoadScript>
     </>
