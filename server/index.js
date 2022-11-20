@@ -116,8 +116,8 @@ app.get("/washrooms/:recordid", asyncWrapper(async (req, res) => {
 }))
 
 // add new washroom
-app.put("/washrooms/:recordid", asyncWrapper(async (req, res) => {
-    const selection = { recordid: req.params.recordid };
+app.put("/washrooms", asyncWrapper(async (req, res) => {
+    const selection = { recordid: "abc123" };
     console.log(selection)
     const update = req.body
     const options = {
