@@ -5,9 +5,11 @@ import { useJsApiLoader, GoogleMap, LoadScript, Marker, InfoWindow } from '@reac
 
 function Home() {
 
-  const { } = useJsApiLoader({
+  const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   })
+
+  if (!isLoaded) { }
 
   const [washroom, setWashroom] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState("");
