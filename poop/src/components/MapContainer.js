@@ -2626,7 +2626,7 @@ const MapContainer = () => {
                 {
                     locations.map(item => {
                         return (
-                            <Marker key= {item.recordid} position= {{lat: item.fields.geom.coordinates[1], lng: item.fields.geom.coordinates[0]}} />
+                            <Marker  position= {{lat: item.fields.geom.coordinates[1], lng: item.fields.geom.coordinates[0]}} />
                         )
                     })
                 }

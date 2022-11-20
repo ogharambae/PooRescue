@@ -13,6 +13,7 @@ const {
     BadRequestErr
 } = require("./utility/errorCodes");
 const washroomSchema = require("./utility/washroomModel");
+const cors = require('cors')
 
 const app = express();
 dotenv.config();
@@ -41,6 +42,12 @@ start()
 
 app.use(express.json())
 app.use(cookieParser())
+app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  );
 
 // register a user using username and password
 app.post('/register', asyncWrapper(async (req, res) => {
