@@ -87,7 +87,7 @@ app.get("/logout", asyncWrapper(async (req, res) => {
 
 // get washroom data
 app.get("/washrooms", asyncWrapper(async (req, res) => {
-    let query = washroomModel.find({}).sort("primaryind");
+    let query = washroomModel.find({}).sort("recordid");
     query.exec().then((d) => {
         if (d.length > 0) {
             res.json(d);
@@ -98,11 +98,11 @@ app.get("/washrooms", asyncWrapper(async (req, res) => {
 }))
 
 // get washroom with id
-app.get("/washrooms/:primaryind", asyncWrapper(async (req, res) => {
-    if (!req.params.primaryind) {
+app.get("/washrooms/:recordid", asyncWrapper(async (req, res) => {
+    if (!req.params.recordid) {
         throw new BadRequestErr("ID of washroom must be provided.");
     }
-    await washroomModel.find({ "fields.primaryind": req.params.primaryind })
+    await washroomModel.find({ recordid: req.params.recordid })
         .then((d) => {
             if (d.length > 0) {
                 res.json(d);
@@ -116,8 +116,8 @@ app.get("/washrooms/:primaryind", asyncWrapper(async (req, res) => {
 }))
 
 // add new washroom
-app.put("/washrooms/:primaryind", asyncWrapper(async (req, res) => {
-    const selection = { "fields.primaryind": req.params.primaryind };
+app.put("/washrooms/:recordid", asyncWrapper(async (req, res) => {
+    const selection = { recordid: req.params.recordid };
     console.log(selection)
     const update = req.body
     const options = {
@@ -135,8 +135,8 @@ app.put("/washrooms/:primaryind", asyncWrapper(async (req, res) => {
 }))
 
 // update a washroom
-app.patch("/updateWashrooms/:primaryind", asyncWrapper(async (req, res) => {
-    const selection = { "fields.primaryind": req.params.primaryind };
+app.patch("/updateWashrooms/:recordid", asyncWrapper(async (req, res) => {
+    const selection = { recordid: req.params.recordid };
     const update = { $set: req.body }
     const options = {
         new: true,
@@ -155,11 +155,11 @@ app.patch("/updateWashrooms/:primaryind", asyncWrapper(async (req, res) => {
 }))
 
 // delete a washroom
-app.delete("/deleteWashrooms/:primaryind", asyncWrapper(async (req, res) => {
-    await washroomModel.find({ "fields.primaryind": req.params.primaryind })
+app.delete("/deleteWashrooms/:recordid", asyncWrapper(async (req, res) => {
+    await washroomModel.find({ recordid: req.params.recordid })
         .then((d) => {
             if (d.length > 0) {
-                washroomModel.deleteOne({ "fields.primaryind": req.params.primaryind }, function (err, result) {
+                washroomModel.deleteOne({ recordid: req.params.recordid }, function (err, result) {
                     if (err) {
                         console.log(err);
                     }
