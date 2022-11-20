@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Box, TextField, Checkbox, FormGroup, FormControlLabel, Button } from "@mui/material";
 import axios from "axios";
 import Dialog from "../components/Dialog";
+import Footer3 from '../components/Footer/Footer3';
 
 function AddWashroom() {
     const [data, setData] = useState({
@@ -24,15 +25,16 @@ function AddWashroom() {
 
     return (
         <Box>
+            <div className='loginContainer'>
             <Box
                 display="flex"
                 flexDirection={"column"}
                 maxWidth={400}
-                borderRadius={2}
                 alignItems="center"
                 justifyContent="center"
                 margin="auto"
                 padding={3}
+                gap={5}
                 backgroundColor="rgba(255, 245, 233, 1)">
                 <TextField
                     margin="normal"
@@ -41,6 +43,7 @@ function AddWashroom() {
                     placeholder="Name"
                     value={data.name}
                     onChange={changeHandler}
+                    variant="standard"
                 />
                 <TextField
                     margin="normal"
@@ -49,6 +52,7 @@ function AddWashroom() {
                     placeholder="Address"
                     value={data.address}
                     onChange={changeHandler}
+                    variant="standard"
                 />
                 <TextField
                     margin="normal"
@@ -57,6 +61,7 @@ function AddWashroom() {
                     placeholder="Summer hours"
                     value={data.summer_hour}
                     onChange={changeHandler}
+                    variant="standard"
                 />
                 <TextField
                     margin="normal"
@@ -65,6 +70,7 @@ function AddWashroom() {
                     placeholder="Winter hours"
                     value={data.winter_hour}
                     onChange={changeHandler}
+                    variant="standard"
                 />
                 <TextField
                     margin="normal"
@@ -73,12 +79,15 @@ function AddWashroom() {
                     placeholder="Info"
                     value={data.info}
                     onChange={changeHandler}
+                    variant="standard"
                 />
                 <FormGroup>
                     <FormControlLabel control={<Checkbox />} label="Wheelchair accessible?" />
                 </FormGroup>
                 <Dialog></Dialog>
             </Box>
+            <Footer3 />
+            </div>
         </Box>
     )
 }

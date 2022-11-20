@@ -7,7 +7,7 @@ export class Footer1 extends Component {
       return (
         <div className='Footer'>
         <Link to='/home'><button><img src='./orangeLocation.png' /></button></Link>
-        <Link to='/order'><button><img src='./icon2.png' /></button></Link>
+        <Link to='/add'><button><img src='./icon2.png' /></button></Link>
         <Link to='/settings'><button><img src='./settings.png' /></button></Link>
     </div>
       )
