@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion} from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 function Login() {
 
@@ -23,7 +24,7 @@ function Login() {
           </form>
         </div>
         <div className='infoContainer'>
-          <button className='getStarted'>Sign In</button>
+          <Link to='/home'><button className='getStarted'>Sign In</button></Link>
           <a>Don't have an account? <span style={{textDecoration: 'underline'}}>Sign Up</span></a>
         </div>
 
