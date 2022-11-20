@@ -155,8 +155,20 @@ app.patch("/updateWashrooms/:primaryind", asyncWrapper(async (req, res) => {
 }))
 
 // delete a washroom
-app.delete("/deleteWashrooms", asyncWrapper(async (req, res) => {
-    res.send("hello from delWashroom");
+app.delete("/deleteWashrooms/:primaryind", asyncWrapper(async (req, res) => {
+    await washroomModel.find({ "fields.primaryind": req.params.primaryind })
+        .then((d) => {
+            if (d.length > 0) {
+                washroomModel.deleteOne({ "fields.primaryind": req.params.primaryind }, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
+                res.send({ msg: "Deleted washroom successfully. " });
+            } else {
+                throw new BadRequestErr("Washroom not found.");
+            }
+        })
 }))
 
 app.get('/favicon.ico', (req, res) => res.status(204));
