@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { set } from 'mongoose';
+import { useJsApiLoader, GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
 // import MapContainer from '../components/MapContainer';
 
 function Home() {
+
+  const { } = useJsApiLoader({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  })
+
   const [washroom, setWashroom] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState("");
 
-  console.log(selectedMarker);
   const fetchData = () => {
     return fetch("http://localhost:8000/washrooms")
       .then((response) => response.json())
@@ -18,7 +21,6 @@ function Home() {
   useEffect(() => {
     fetchData();
   }, [])
-
 
   const defaultCenter = {
     lat: 49.2832763, lng: -123.099849
@@ -33,7 +35,7 @@ function Home() {
   return (
     <>
       <LoadScript
-        googleMapsApiKey='AIzaSyCLBW0x_JuW8PVI_2Ts8gAjE2-K1Hzd76s'>
+        googleMapsApiKey="AIzaSyCLBW0x_JuW8PVI_2Ts8gAjE2-K1Hzd76s">
         <GoogleMap
           mapContainerStyle={mapStyles}
           zoom={13}
@@ -42,12 +44,17 @@ function Home() {
             washroom.map(item => {
               return (
                 <div key={item.recordid}>
-                  <Marker
-                    position={{ lat: item.fields.geom.coordinates[1], lng: item.fields.geom.coordinates[0] }}
-                    onClick={() => {
-                      setSelectedMarker(item);
-                    }}
-                  />
+                  <div>
+                    <Marker
+                      position={{ lat: item.fields.geom.coordinates[1], lng: item.fields.geom.coordinates[0] }}
+                      onClick={() => {
+                        setSelectedMarker(item);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <Marker position={{ lat: 49.2832763, lng: -123.099849 }} />
+                  </div>
                 </div>
               )
             })
