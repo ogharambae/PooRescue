@@ -36,7 +36,7 @@ function AddWashroom() {
                 justifyContent="center"
                 margin="auto"
                 padding={3}
-                gap={5}
+                gap={2}
                 backgroundColor="rgba(255, 245, 233, 1)">
                 <TextField
                     margin="normal"
