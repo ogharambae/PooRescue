@@ -34,44 +34,50 @@ function Home() {
     };
 
 
-    return (
-        <>
-            <LoadScript
-                googleMapsApiKey="AIzaSyCLBW0x_JuW8PVI_2Ts8gAjE2-K1Hzd76s">
-                <GoogleMap
-                    keyboardShortcuts={'false'}
-                    mapContainerStyle={mapStyles}
-                    zoom={14}
-                    center={defaultCenter}>
-                    {
-                        washroom.map(item => {
-                            return (
-                                <div key={item.recordid}>
-                                    <div>
-                                        <Marker
-                                            icon={{
-                                                url: (require('./../images/poop.png')),
-                                                fillColor: '#EB00FF'
-                                            }}
-                                            position={{ lat: item.fields.geom.coordinates[1], lng: item.fields.geom.coordinates[0] }}
-                                            onClick={() => {
-                                                setSelectedMarker(item);
-                                            }}
-                                        />
-                                    </div>
-                                    <div>
-                                        <Marker position={{ lat: 49.2832763, lng: -123.099849 }}
-                                            icon={{
-                                                url: (require('./../images/user.png')),
-                                                fillColor: '#EB00FF'
-                                            }} />
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                    {selectedMarker && (
-                        <InfoWindow position={{ lat: selectedMarker.fields.geom.coordinates[1], lng: selectedMarker.fields.geom.coordinates[0] }}>
+  return (
+    <>
+      <LoadScript
+        googleMapsApiKey="AIzaSyCLBW0x_JuW8PVI_2Ts8gAjE2-K1Hzd76s">
+        <GoogleMap
+          mapContainerStyle={mapStyles}
+          zoom={13}
+          center={defaultCenter}
+          options={{
+            streetViewControl: false,
+            fullscreenControl: false,
+            mapTypeControl: false,
+            zoomControl: false
+          }}
+        >
+          {
+            washroom.map(item => {
+              return (
+                <div key={item.recordid}>
+                  <div>
+                    <Marker
+        icon={{
+            url: (require('./../images/poop.png')),
+            fillColor: '#EB00FF',
+        }}
+                      position={{ lat: item.fields.geom.coordinates[1], lng: item.fields.geom.coordinates[0] }}
+                      onClick={() => {
+                        setSelectedMarker(item);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <Marker         icon={{
+            url: (require('./../images/user.png')),
+            fillColor: '#EB00FF',
+            scale: 7,
+        }} position={{ lat: 49.2832763, lng: -123.099849 }} />
+                  </div>
+                </div>
+              )
+            })
+          }
+          {selectedMarker && (
+            <InfoWindow position={{ lat: selectedMarker.fields.geom.coordinates[1], lng: selectedMarker.fields.geom.coordinates[0] }}>
                             <div className='windowContainer'>
                                 <div className='informationContainer'>
                                 <h1>{selectedMarker.fields.name}</h1>
@@ -83,12 +89,12 @@ function Home() {
                                 </div>
                                 <button type='button' onClick={() => { setSelectedMarker("") }}>Close</button>
                             </div>
-                        </InfoWindow>
-                    )}
-                </GoogleMap>
-            </LoadScript>
-        </>
-    );
+            </InfoWindow>
+          )}
+        </GoogleMap>
+      </LoadScript>
+    </>
+  );
 }
 
 export default Home;
